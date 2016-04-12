@@ -1,0 +1,26 @@
+{
+  "name": "convert-dayone",
+  "version": "0.1.0",
+  "description": "Convert a Day One 2 export (as JSON) to the Quiver Notebook data format.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thebearjew/convert-dayone.git"
+  },
+  "keywords": [
+    "Dayone",
+    "Quiver",
+    "data",
+    "converter",
+    "journaling"
+  ],
+  "author": "Jacob Young",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/thebearjew/convert-dayone/issues"
+  },
+  "homepage": "https://github.com/thebearjew/convert-dayone#readme"
+}
