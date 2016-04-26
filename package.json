@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/thebearjew/convert-dayone/issues"
   },
-  "homepage": "https://github.com/thebearjew/convert-dayone#readme"
+  "homepage": "https://github.com/thebearjew/convert-dayone#readme",
+  "dependencies": {
+    "node-uuid": "^1.4.7"
+  }
 }
