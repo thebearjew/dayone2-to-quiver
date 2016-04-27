@@ -5,10 +5,9 @@ const uuid = require('node-uuid')
 module.exports = (dayonePath, quiverPath) => {
   const dayoneContents = fs.readFileSync(dayonePath, 'utf8')
   const dayoneData = JSON.parse(dayoneContents)
-  // console.log(dayoneData.entries)
 
   const entries = dayoneData.entries
-
+  // Parse each journal entry
   entries.forEach(buildQuiverData)
 }
 
@@ -20,23 +19,27 @@ const buildQuiverData = (entry) => {
   meta.tags = entry.tags || []
   meta.uuid = uuid.v4().toUpperCase()
   meta.title = parseTitle(entry.text)
-  // console.log('Meta: ', meta)
-
+  
   // Content object for content.json of Quiver data format
   let content = {}
   content.title = parseTitle(entry.text)
   content.cells = []
   const cell = {
     'type': 'markdown',
-    'data': ''
+    'data': parseEntry(entry) || ''
   }
-  parseEntry(entry.text)
   content.cells.push(cell)
-  // console.log('Content:', content)
+  console.log('Meta: ', meta)
+  console.log('Content: ', content)
 
-  // TODO: Write parser function to match image links
-  // TODO: Generate UUID.v4 for names
+  return {
+    'meta': meta,
+    'conent': content
+  }
+  // TODO: Write qvnotebook
+  // TODO: Write qvnote (s)
   // TODO: Write data to meta.json
+  // TODO: Write data to content.json
 }
 
 const parseTitle = (text) => {
@@ -60,21 +63,32 @@ const parseTitle = (text) => {
   return 'Untitled'
 }
 
-const parseEntry = (text) => {
+const parseEntry = (entry) => {
+  let text = entry.text
   if (text === undefined) { return }
 
-  const linkRegexG = /(!\[\])(\(dayone-moment:\/\/([a-zA-z0-9]+)\))/g
-  const linkRegex = /(!\[\])(\(dayone-moment:\/\/([a-zA-z0-9]+)\))/
+  // String to build regular expression to replace dayone-moment references
+  // Ex. dayone-moment://
+  const dayoneRef = 'dayone-moment:\/\/'
 
-  const paragraphs = text.split('\n\n')
-  for (let p of paragraphs) {
-    const matches = p.match(linkRegexG)
-    if (matches) {
-      matches.forEach((match) => {
-        console.log(linkRegex.exec(match)[3])
-      })
-    }
+  const photos = entry.photos
+  if (photos) {
+    photos.forEach((photo) => {
+      // Concatinating 'dayone-moment://' + 'UUID'
+      // Ex. 'dayone-moment://UUID'
+      const linkSource = dayoneRef + photo.identifier
+      const linkReg = new RegExp(linkSource, 'g')
+
+      // Replacement string 'quiver-image-url' + 'MD5' + '.jpg'
+      // Ex. 'quiver-image-url/UUID.jpg'
+      const newLink = 'quiver-image-url/' + photo.md5.toUpperCase() + '.jpg'
+
+      // Replace all occurances of original link (linkSource) with newLink
+      text = text.replace(linkReg, newLink)
+
+      // TODO: Copy image resource to new directory under the quiver 
+    })
   }
+  return text
 }
 
-// TODO: Write function to move image resources and relink markdown
