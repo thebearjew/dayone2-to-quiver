@@ -1,17 +1,7 @@
 'use strict'
-const fs = require('fs')
 const uuid = require('node-uuid')
 
-module.exports = (dayonePath, quiverPath) => {
-  const dayoneContents = fs.readFileSync(dayonePath, 'utf8')
-  const dayoneData = JSON.parse(dayoneContents)
-
-  const entries = dayoneData.entries
-  // Parse each journal entry
-  entries.forEach(buildQuiverData)
-}
-
-const buildQuiverData = (entry) => {
+module.exports = (entry, resultsArray) => {
   // Meta object for meta.json of Quiver data format
   let meta = {}
   meta.created_at = Date.parse(entry.creationDate)
@@ -19,7 +9,7 @@ const buildQuiverData = (entry) => {
   meta.tags = entry.tags || []
   meta.uuid = uuid.v4().toUpperCase()
   meta.title = parseTitle(entry.text)
-  
+
   // Content object for content.json of Quiver data format
   let content = {}
   content.title = parseTitle(entry.text)
@@ -29,21 +19,11 @@ const buildQuiverData = (entry) => {
     'data': parseEntry(entry) || ''
   }
   content.cells.push(cell)
-  console.log('Meta: ', meta)
-  console.log('Content: ', content)
 
-  return {
-    'meta': meta,
-    'conent': content
-  }
-  // TODO: Write qvnotebook
-  // TODO: Write qvnote (s)
-  // TODO: Write data to meta.json
-  // TODO: Write data to content.json
+  resultsArray.push({ 'meta': meta, 'content': content })
 }
 
 const parseTitle = (text) => {
-  // If there is no text in the entry, the text is "Untitled"
   if (text === undefined) { return 'Untitled' }
   const paragraphs = text.split('\n\n')
   // Iterate over all of the paragraphs in the journal
@@ -86,7 +66,7 @@ const parseEntry = (entry) => {
       // Replace all occurances of original link (linkSource) with newLink
       text = text.replace(linkReg, newLink)
 
-      // TODO: Copy image resource to new directory under the quiver 
+      // TODO: Copy image resource to new directory under the quiver
     })
   }
   return text
