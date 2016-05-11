@@ -4,8 +4,8 @@ const uuid = require('node-uuid')
 module.exports = (entry, resultsArray) => {
   // Meta object for meta.json of Quiver data format
   let meta = {}
-  meta.created_at = Date.parse(entry.creationDate)
-  meta.udpated_at = meta.created_at
+  meta.created_at = Date.parse(entry.creationDate)/1000
+  meta.updated_at= meta.created_at
   meta.tags = entry.tags || []
   meta.uuid = uuid.v4().toUpperCase()
   meta.title = parseTitle(entry.text)
@@ -20,7 +20,8 @@ module.exports = (entry, resultsArray) => {
   }
   content.cells.push(cell)
 
-  resultsArray.push({ 'meta': meta, 'content': content })
+  let resources = parsePhotos(entry)
+  resultsArray.push({ 'meta': meta, 'content': content, 'resources': resources })
 }
 
 const parseTitle = (text) => {
@@ -43,6 +44,12 @@ const parseTitle = (text) => {
   return 'Untitled'
 }
 
+const parsePhotos = (entry) => {
+  if (entry.photos) {
+    return entry.photos.map((photo) => { return photo.md5 + '.jpeg'})
+  }
+}
+
 const parseEntry = (entry) => {
   let text = entry.text
   if (text === undefined) { return }
@@ -61,12 +68,13 @@ const parseEntry = (entry) => {
 
       // Replacement string 'quiver-image-url' + 'MD5' + '.jpg'
       // Ex. 'quiver-image-url/UUID.jpg'
-      const newLink = 'quiver-image-url/' + photo.md5.toUpperCase() + '.jpg'
+      const newLink = 'quiver-image-url/' + photo.md5.toUpperCase() + '.jpeg'
 
       // Replace all occurances of original link (linkSource) with newLink
+      // Ex.
+      //  linkReg: 'dayone-moment://UUID'
+      //  newLink: 'quiver-image-url/MD5'
       text = text.replace(linkReg, newLink)
-
-      // TODO: Copy image resource to new directory under the quiver
     })
   }
   return text

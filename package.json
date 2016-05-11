@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/thebearjew/convert-dayone#readme",
   "dependencies": {
+    "fs-extra": "^0.30.0",
     "node-uuid": "^1.4.7"
   }
 }
