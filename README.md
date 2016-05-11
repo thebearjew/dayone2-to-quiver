@@ -16,9 +16,10 @@ npm install convert-dayone
 
 ### Usage
 
-Run the command `convery-dayone` with two arguments:
+Run the command `convert-dayone` with two arguments:
 
-- **Path to Day One JSON**: Path to the journal.json file exported by Day One. To export as JSON, open Day One on iOS and go to Settings > Export > As JSON > Send (whatever means you prefer)
+- **Path to Day One JSON**: Path to the Journal.json file exported by Day One. 
+    - To export as JSON, open Day One on iOS and go to Settings > Export > As JSON > Send (whatever means you prefer)
 - **Path to Quiver Notebook**: Path to your existing Quiver Notebook you would like to write the Day One journals.
 
 ```
