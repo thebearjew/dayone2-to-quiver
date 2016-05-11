@@ -10,6 +10,8 @@ Why not bridge these two applications for those who want to use Quiver as their 
 
 ## Installation
 
+Installation requires [Node v4.0.0 LTS](https://nodejs.org/en/) or greater and Node Package Manager [(npm) v3.7.3](https://www.npmjs.com) or greater.
+
 ```
 npm install convert-dayone
 ```
@@ -34,6 +36,41 @@ npm test
 ```
 
 ## Data Formats
+**Quiver**: The data format documentation can be found on [Day One Documentation Wiki -> Data Format](https://github.com/HappenApps/Quiver/wiki/Quiver-Data-Format)
+
+**Day One**: Exports from JSON take the following data structure (Last updated: 2016-05-11)
+
+<small>This is just a sample of an exported Journal.json, some JSON keys are missing for brevity</small>
+
+```js
+{
+"metadata" : {
+  "version" : "1.0"
+},
+"entries" : [
+{
+    "tags": [ "Writing", "Self", "Travel"],
+    "uuid" : "3033AC461A964C72B187DD0D68C3B74A",
+    "weather" : { ... },
+    "creationDate" : "2014-02-09T23:36:36Z",
+    "text": "Today is February 9th.\n\nToday sparky's, my dog, birthday! ... ",
+    "starred" : true,
+    "photos" : [
+        {
+            "cameraMake" : "Apple",
+            "fnumber" : "2.4",
+            "orderInEntry" : 0,
+            "width" : 2100,
+            "cameraModel" : "iPhone 5",
+            "identifier" : "060632D1C34640459E9A2BD3D02E5BE3",
+            "date" : "2014-02-09T00:06:38Z",
+            "md5" : "3b77cbcacba09eb9384f3d1aef56b5e0",
+            "focalLength" : "4.12"
+        }]
+}]
+}
+```
+
 
 ## Contributing
 
