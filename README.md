@@ -31,9 +31,9 @@ convert-dayone path/to/YYYY-MM-DD-Journal-JSON path/to/save/quiver/
 
 ## Tests
 
-```
-npm test
-```
+Coming soon to a developer near you!
+
+<small>But actually need to restructure this code to work better with tests (i.e. returning values from helper functions.</small>
 
 ## Data Formats
 **Quiver**: The data format documentation can be found on [Day One Documentation Wiki -> Data Format](https://github.com/HappenApps/Quiver/wiki/Quiver-Data-Format)
